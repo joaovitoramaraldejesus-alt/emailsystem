@@ -1,4 +1,4 @@
-O sistema foi desenvolvido utilizando Java Spring Boot, PostgreSQL e RabbitMQ. Os e-mails são cadastrados através de uma interface HTML simples e armazenados no banco de dados.
+O sistema foi desenvolvido utilizando Java Spring Boot, PgAdmin e RabbitMQ. Os e-mails são cadastrados através de uma interface HTML simples e armazenados no banco de dados.
 
 Quando o usuário solicita o envio em lote, a aplicação consulta os registros cadastrados e publica mensagens em uma Exchange do RabbitMQ utilizando uma Routing Key. As mensagens são encaminhadas para a fila configurada e consumidas por um Consumer, que processa as mensagens de forma assíncrona.
 
@@ -15,6 +15,6 @@ Tecnologias Utilizadas:
 
 Java
 Spring Boot
-PostgreSQL
+PgAdmin
 RabbitMQ
 HTML
