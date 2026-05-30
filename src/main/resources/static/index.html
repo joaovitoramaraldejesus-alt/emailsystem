@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Emails</title>
+</head>
+
+<body>
+
+<h1>Sistema de Envio de Emails</h1>
+
+<h2>Cadastrar Email</h2>
+
+<input type="text" id="email" placeholder="Email">
+<input type="text" id="assunto" placeholder="Assunto">
+<input type="text" id="mensagem" placeholder="Mensagem">
+
+<button onclick="cadastrar()">
+    Cadastrar
+</button>
+
+<button onclick="enviarLote()">
+    Enviar Lote
+</button>
+
+<hr>
+
+<h2>Emails Cadastrados</h2>
+
+<button onclick="listar()">
+    Listar Emails
+</button>
+
+<ul id="lista"></ul>
+
+<script>
+
+function cadastrar() {
+
+    fetch("http://localhost:8082/emails", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            email: document.getElementById("email").value,
+            assunto: document.getElementById("assunto").value,
+            mensagem: document.getElementById("mensagem").value
+
+        })
+
+    })
+
+    .then(response => response.json())
+
+    .then(() => {
+
+        alert("Email cadastrado com sucesso!");
+
+        document.getElementById("email").value = "";
+        document.getElementById("assunto").value = "";
+        document.getElementById("mensagem").value = "";
+
+        listar();
+
+    })
+
+    .catch(() => {
+
+        alert("Erro ao cadastrar email.");
+
+    });
+
+}
+
+function listar() {
+
+    fetch("http://localhost:8082/emails")
+
+    .then(response => response.json())
+
+    .then(dados => {
+
+        let lista =
+            document.getElementById("lista");
+
+        lista.innerHTML = "";
+
+        dados.forEach(email => {
+
+            lista.innerHTML +=
+                "<li>" +
+                "<strong>Email:</strong> " + email.email +
+                " | <strong>Assunto:</strong> " + email.assunto +
+                " | <strong>Mensagem:</strong> " + email.mensagem +
+                "</li>";
+
+        });
+
+    });
+
+}
+
+function enviarLote() {
+
+    fetch("http://localhost:8082/emails/enviar-lote", {
+
+        method: "POST"
+
+    })
+
+    .then(response => response.text())
+
+    .then(msg => {
+
+        alert(msg);
+
+    })
+
+    .catch(() => {
+
+        alert("Erro ao enviar lote.");
+
+    });
+
+}
+
+</script>
+
+</body>
+
+</html>
